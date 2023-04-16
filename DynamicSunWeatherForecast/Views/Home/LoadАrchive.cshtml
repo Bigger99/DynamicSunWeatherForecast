@@ -1,0 +1,37 @@
+﻿@{
+    ViewData["Title"] = "LoadАrchive";
+}
+<h1>Загрузка архивов</h1>
+
+<h2>Импорт файла Excel</h2>
+<div>
+    @using (Html.BeginForm("LoadData", "Home", FormMethod.Post, new { enctype = "multipart/form-data", onsubmit = "showLoader(this);" }))
+    {
+        <div>
+            <input type="file" name="excelFiles" multiple/>
+            <br>
+            <input type="submit" value="Загрузить" />
+        </div>
+    }
+</div>
+
+<script>
+    var showLoader = function (form) {
+        $("<div />").css({
+            'position': 'fixed',
+            'left': 0,
+            'right': 0,
+            'bottom': 0,
+            'top': 0,
+            'background': '#0020ff36',
+            'z-index': '99',
+            'text-align': 'center'
+        }).appendTo($("body"))
+            .append(
+                $("<img />").attr("src", "https://mir-s3-cdn-cf.behance.net/project_modules/disp/35771931234507.564a1d2403b3a.gif")
+            );
+    }
+    $("form").submit(function () {
+        showLoader();
+    });
+</script>

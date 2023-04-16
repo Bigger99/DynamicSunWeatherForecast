@@ -1,0 +1,68 @@
+﻿@using System.ComponentModel;
+@using DynamicSunWeatherForecast.Database.Models;
+@model IEnumerable<Weather>
+
+@{
+    ViewData["Title"] = "WatchArchive";
+}
+<h1>Просмотр архивов</h1>
+
+@if (Model is not null)
+{
+
+    <div>
+        @using (Html.BeginForm("WatchArchive", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <div class="text-center">
+                <div class="text-center"><b>Фильтр</b></div>
+                <div class="text-center">
+                    <span>Месяц:</span>
+                    <select name="mounth" asp-items="@Html.GetEnumSelectList(typeof(Mounth))" placeholder="Выберите месяц"></select>
+
+                    <span>Год:</span>
+                    <input type="text" name="year" placeholder="Введите год" />
+
+                    <input type="submit" value="Ок" />
+                </div>
+            </div>
+        }
+    </div> 
+
+    <table class="table table-bordered table-responsive table-hover">
+        <tr>
+            <th>Дата</th>
+            <th>Время (московское)</th>
+            <th>Температура воздуха</th>
+            <th>Отн. влажность воздуха, %</th>
+            <th>Точка росы, гр. Ц</th>0	03:00:00
+            <th>Атм. давление, мм рт.ст.</th>
+            <th>Направление ветра</th>
+            <th>Скорость ветра, м/с</th>
+            <th>Облачность,%</th>
+            <th>Нижняя граница облачности, м</th>
+            <th>Горизонтальная видимость, км</th>
+            <th>Погодные явления</th>
+        </tr>
+        @foreach (var d in Model)
+        {
+            <tr>
+                <td>@d.Date.ToString("dd.MM.yyyy")</td>
+                <td>@d.MoscowTime?.ToString(@"hh\:mm")</td>
+                <td>@d.AirTemperature</td>
+                <td>@d.RelativeAirHumidity</td>
+                <td>@d.Td</td>
+                <td>@d.AtmospherePressure</td>
+                <td>@d.WindFollow</td>
+                <td>@d.WindSpeed</td>
+                <td>@d.Cloudy</td>
+                <td>@d.H</td>
+                <td>@d.VV</td>
+                <td>@d.WeatherConditions</td>
+            </tr>
+        }
+    </table>
+}
+else
+{
+    <h2>Архивов не найдено</h2>
+}
