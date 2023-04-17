@@ -5,6 +5,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ApplicationDbContext>();
 builder.Services.AddTransient<IDatabaseRepository, DatabaseRepository>();
+
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())

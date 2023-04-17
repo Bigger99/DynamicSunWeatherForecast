@@ -12,12 +12,12 @@ namespace DynamicSunWeatherForecast.Database.Repositiry
             _dbContext = dbContext;
         }
 
-        public List<Weather> GetAllWeather()
+        public IReadOnlyList<Weather> GetAllWeather()
         {
             return _dbContext.Weather.ToList();
         }
 
-        public List<Weather> GetWeather(Mounth mounth, int year)
+        public IReadOnlyList<Weather> GetWeather(Mounth mounth, int year)
         {
             if (mounth == Mounth.None && year == 0)
             {
@@ -25,15 +25,15 @@ namespace DynamicSunWeatherForecast.Database.Repositiry
             }
             else if (mounth != Mounth.None && year != 0)
             {
-                return _dbContext.Weather.Where(x => x.Date.Month == (int)mounth && x.Date.Year == year).ToList();
+                return _dbContext.Weather.AsQueryable().Where(x => x.Date.Month == (int)mounth && x.Date.Year == year).ToList();
             }
             else if (mounth == Mounth.None && year != 0)
             {
-                return _dbContext.Weather.Where(x => x.Date.Year == year).ToList();
+                return _dbContext.Weather.AsQueryable().Where(x => x.Date.Year == year).ToList();
             }
             else if (mounth != Mounth.None && year == 0)
             {
-                return _dbContext.Weather.Where(x => x.Date.Month == (int)mounth).ToList();
+                return _dbContext.Weather.AsQueryable().Where(x => x.Date.Month == (int)mounth).ToList();
             }
 
             return GetAllWeather();

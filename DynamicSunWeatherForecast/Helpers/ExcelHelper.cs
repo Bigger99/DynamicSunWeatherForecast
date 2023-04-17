@@ -48,14 +48,15 @@ namespace DynamicSunWeatherForecast.Helpers
 
         public static List<Weather> ReadXlsx(IFormFile path) 
         {
-            if (path is null || !IsCorrectFilePath(path.FileName))
-                throw new Exception("Введён некорректный путь к файлу");
+            var fileName = path.FileName;
 
-            XSSFWorkbook? workbook = null;
+            if (path is null || !IsCorrectFilePath(fileName))
+                throw new Exception($"Введён некорректный путь к файлу - {fileName}");
+
             using var stream = new MemoryStream();
             path.CopyTo(stream);
             stream.Position = 0;
-            workbook = new XSSFWorkbook(stream);
+            var workbook = new XSSFWorkbook(stream);
 
             ISheet? sheet = null;
             var dataRow = new List<Weather>();
